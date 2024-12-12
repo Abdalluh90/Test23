@@ -44,7 +44,7 @@
       to { opacity: 1; }
     }
 
-    .login-title, .register-title {
+    .login-title, .register-title, .forgot-password-title {
       margin-bottom: 16px;
       text-align: center;
     }
@@ -101,7 +101,7 @@
       gap: 8px;
     }
 
-    .login-button, .register-button {
+    .login-button, .register-button, .forgot-password-button {
       margin-top: 20px;
       padding: 10px 20px;
       border: none;
@@ -115,7 +115,7 @@
       width: 100%;
     }
 
-    .login-button:hover, .register-button:hover {
+    .login-button:hover, .register-button:hover, .forgot-password-button:hover {
       background-color: rgba(255, 255, 255, 0.5);
     }
 
@@ -188,7 +188,7 @@
           <h5>Remember me</h5>
         </label>
       </div>
-      <a class="forgot-password" href="#">
+      <a class="forgot-password" href="#" onclick="showForgotPasswordForm()">
         <h5>Forgot password?</h5>
       </a>
     </div>
@@ -216,20 +216,37 @@
     </div>
 
     <div class="input-box">
-      <input type="password" name="password" placeholder="Password" required aria-label="Password">
+      <input type="password" name="password" id="password" placeholder="Password" required aria-label="Password">
       <i class='bx bxs-lock-alt'></i>
     </div>
 
     <div class="input-box">
-      <input type="password" name="confirm-password" placeholder="Confirm Password" required aria-label="Confirm Password">
+      <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" required aria-label="Confirm Password">
       <i class='bx bxs-lock-alt'></i>
     </div>
 
-    <button class="register-button" type="submit">Register</button>
+    <button class="register-button" type="submit" onclick="validatePasswords()">Register</button>
 
     <h5 class="already-have-an-account">
       Already have an account? 
       <a href="#" onclick="showLoginForm()"><b>Login</b></a>
+    </h5>
+  </form>
+
+  <!-- Forgot Password Form (Initially Hidden) -->
+  <form class="container" id="forgot-password-form" style="display: none;">
+    <h1 class="forgot-password-title">Forgot Password</h1>
+
+    <div class="input-box">
+      <input type="email" name="email" placeholder="Enter your email" required aria-label="Email">
+      <i class='bx bxs-envelope'></i>
+    </div>
+
+    <button class="forgot-password-button" type="submit">Reset Password</button>
+
+    <h5 class="already-have-an-account">
+      Remember your password? 
+      <a href="#" onclick="showLoginForm()">Login</a>
     </h5>
   </form>
 
@@ -241,15 +258,34 @@
     // JavaScript لجعل الصفحة أكثر تفاعلية وسلاسة
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
 
     function showRegisterForm() {
       loginForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'none';
       registerForm.style.display = 'block';
     }
 
     function showLoginForm() {
       registerForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'none';
       loginForm.style.display = 'block';
+    }
+
+    function showForgotPasswordForm() {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'block';
+    }
+
+    function validatePasswords(event) {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (password !== confirmPassword) {
+        event.preventDefault();
+        alert("Passwords do not match!");
+      }
     }
 
     // إضافة تأثيرات عند تقديم النموذج
@@ -263,9 +299,15 @@
       alert('Registration Submitted');
     });
 
+    forgotPasswordForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Password reset instructions sent');
+    });
+
     // إضافة تأثيرات عند المرور فوق الزر
     const loginButton = document.querySelector('.login-button');
     const registerButton = document.querySelector('.register-button');
+    const forgotPasswordButton = document.querySelector('.forgot-password-button');
 
     loginButton.addEventListener('mouseover', function() {
       loginButton.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
@@ -281,6 +323,14 @@
 
     registerButton.addEventListener('mouseout', function() {
       registerButton.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+    });
+
+    forgotPasswordButton.addEventListener('mouseover', function() {
+      forgotPasswordButton.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+    });
+
+    forgotPasswordButton.addEventListener('mouseout', function() {
+      forgotPasswordButton.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
     });
   </script>
 </body>
